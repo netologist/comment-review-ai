@@ -39,6 +39,9 @@ class CommentAnalysis(BaseModel):
     publish: bool = Field(
         ..., description="Set to `false` if the comment contains profanity OR is not relevant. Otherwise, set to `true`."
     )
+    reason: Optional[str] = Field(
+        None, description="Explanation for why the comment was rejected (if publish is false) or additional context if sentiment is negative. Should be a clear, concise explanation."
+    )
 
 class FullAnalysisResult(BaseModel):
     """The final, combined analysis result including fetched data."""
@@ -109,12 +112,17 @@ async def analyze_comment(comment: str) -> FullAnalysisResult:
     # The prompt guides the LLM to perform the checks and structure the output.
     analysis_result: CommentAnalysis = await ai_analyzer.run(
         f"""Analyze the following user comment. Determine its sentiment, check for any profanity, and verify if it's genuinely about a movie or book.
-        
+
         - Sentiment: classify as 'positive', 'negative', or 'neutral'.
         - Profanity: set `is_profane` to true if it contains any swear words or offensive language.
         - Relevance: set `is_relevant` to true only if the comment is clearly discussing a film or book. Comments that are spam, gibberish, or off-topic should be false.
         - Subject Title: extract the name of the movie or book. If no specific title can be found, return 'N/A'.
         - Publish Flag: set `publish` to false if `is_profane` is true OR `is_relevant` is false. Otherwise, set it to true.
+        - Reason: provide a clear explanation in the following cases:
+          * If `publish` is false, explain why the comment was rejected (e.g., "Contains profanity", "Not relevant to movies or books", "Spam or gibberish")
+          * If `sentiment` is negative, provide context about why the sentiment is negative (e.g., "User expressed disappointment with the plot", "Criticism of acting quality")
+          * If both conditions apply, combine both explanations
+          * If the comment is published and sentiment is positive or neutral, this field can be null or omitted
 
         Comment: "{comment}"
         """
