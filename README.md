@@ -21,6 +21,38 @@ An agentic application that analyzes user comments for profanity, sentiment, and
 ## Setup
 
 1.  **Install dependencies:**
+
+    **Option A: Using uv (Recommended - Faster)**
+
+    [uv](https://github.com/astral-sh/uv) is an extremely fast Python package installer and resolver.
+
+    - **Install uv:**
+      ```bash
+      # macOS/Linux
+      curl -LsSf https://astral.sh/uv/install.sh | sh
+
+      # Windows
+      powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
+
+      # Or with pip
+      pip install uv
+      ```
+
+    - **Install dependencies with uv:**
+      ```bash
+      uv pip install -r requirements.txt
+      ```
+
+    - **Create and activate virtual environment with uv:**
+      ```bash
+      uv venv
+      source .venv/bin/activate  # On macOS/Linux
+      # or
+      .venv\Scripts\activate  # On Windows
+      ```
+
+    **Option B: Using pip (Traditional)**
+
     ```bash
     pip install -r requirements.txt
     ```
