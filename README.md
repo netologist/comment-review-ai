@@ -21,7 +21,52 @@ An agentic application that analyzes user comments for profanity, sentiment, and
     ```bash
     pip install -r requirements.txt
     ```
-2.  **Set up environment variables:**
+
+2.  **Set up Ollama (Local LLM):**
+
+    This project uses [Ollama](https://ollama.ai/) to run a local LLM (llama3.1) for comment analysis.
+
+    - **Install Ollama:**
+      - **macOS/Linux:**
+        ```bash
+        curl -fsSL https://ollama.ai/install.sh | sh
+        ```
+      - **Windows:** Download from [https://ollama.ai/download](https://ollama.ai/download)
+      - **Or visit:** [https://ollama.ai](https://ollama.ai) for other installation methods
+
+    - **Pull the llama3.1 model:**
+      ```bash
+      ollama pull llama3.1:latest
+      ```
+
+    - **Start Ollama (if not already running):**
+      ```bash
+      ollama serve
+      ```
+      Ollama will run on `http://localhost:11434` by default.
+
+    - **Verify Ollama is running:**
+      ```bash
+      curl http://localhost:11434/api/tags
+      ```
+      You should see a list of available models including `llama3.1:latest`.
+
+    **Alternative: Using OpenAI instead of Ollama**
+
+    If you prefer to use OpenAI's API instead of a local model, modify `src/agent.py`:
+    ```python
+    # Replace the ollama_model configuration with:
+    ai_analyzer = Agent(
+        "openai:gpt-4-turbo",  # or "openai:gpt-3.5-turbo"
+        output_type=CommentAnalysis,
+    )
+    ```
+    And set your OpenAI API key in `.env`:
+    ```
+    OPENAI_API_KEY=your_openai_api_key_here
+    ```
+
+3.  **Set up environment variables:**
     - Copy `.env.example` to a new file named `.env`.
     - Get a free API key from [OMDb API](https://www.omdbapi.com/apikey.aspx).
     - Add your API key to the `.env` file:

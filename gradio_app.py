@@ -32,6 +32,10 @@ def format_results_to_html(results):
         poster_url = info.get('poster_url') if info else None
         poster_html = f"<img src='{poster_url}' style='width:100px; height: auto; float: left; margin-right: 15px;'>" if poster_url else "<div style='width:100px; height:150px; background-color:#eee; float: left; margin-right: 15px; text-align:center; line-height:150px;'>No Image</div>"
 
+        # Get reason if available
+        reason = analysis.get('reason')
+        reason_html = f"<p><strong>Reason:</strong> <em>{reason}</em></p>" if reason else ""
+
         html += f"""
         <div style='border: 2px solid {border_color}; border-radius: 10px; padding: 15px; width: 400px; overflow: hidden;'>
             {poster_html}
@@ -39,11 +43,12 @@ def format_results_to_html(results):
                 <p><strong>Comment:</strong> "{item.get('original_comment', 'N/A')}"</p>
                 <p><strong>Subject:</strong> {analysis.get('subject_title', 'N/A')} ({info.get('year', 'N/A') if info else 'N/A'})</p>
                 <p>
-                    <strong>Sentiment:</strong> {analysis.get('sentiment', 'N/A')} | 
-                    <strong>Profane:</strong> {analysis.get('is_profane', 'N/A')} | 
+                    <strong>Sentiment:</strong> {analysis.get('sentiment', 'N/A')} |
+                    <strong>Profane:</strong> {analysis.get('is_profane', 'N/A')} |
                     <strong>Relevant:</strong> {analysis.get('is_relevant', 'N/A')}
                 </p>
                 <p><strong>Publish Status:</strong> {'Approved' if analysis.get('publish', False) else 'Rejected'}</p>
+                {reason_html}
             </div>
         </div>
         """
