@@ -1,5 +1,8 @@
 # Comment Review AI
 
+<img width="1508" height="788" alt="Screenshot 2025-11-25 at 08 16 53" src="https://github.com/user-attachments/assets/ed83e45a-d81e-4182-9f14-8c487224f30c" />
+
+
 An agentic application that analyzes user comments for profanity, sentiment, and relevance to movies or books. It fetches additional information from OMDb and provides a simple API and UI to interact with the system.
 
 ## Project Structure
