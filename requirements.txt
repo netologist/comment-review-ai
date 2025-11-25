@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+pydantic-ai
+gradio
+python-dotenv
+requests
+httpx
+nest_asyncio
